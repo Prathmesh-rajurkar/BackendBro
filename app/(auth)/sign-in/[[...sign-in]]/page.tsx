@@ -1,8 +1,12 @@
+import { BackgroundLines } from "@/components/ui/background-lines";
 import { SignIn, SignUp } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
 export default function Page() {
   return (
+    <BackgroundLines className="flex  items-center justify-center w-full flex-col px-4">
+
+    
     <div className="flex justify-center items-center flex-col gap-4">
       <div>
         <h1
@@ -30,5 +34,6 @@ export default function Page() {
         />
       </div>
     </div>
+    </BackgroundLines>
   );
 }

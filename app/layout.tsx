@@ -41,7 +41,7 @@ export default function RootLayout({
     <ClerkProvider localization={customLocalization}>
       <html lang="en">
         <body className={`${inter.className} ${belanosima.variable}`}>
-          <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+          <div className="min-h-screen">
             {children}
           </div>
         </body>
