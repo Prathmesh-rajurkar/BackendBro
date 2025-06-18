@@ -15,11 +15,11 @@ function ChatWindow() {
       >
         backendbro
       </div>
-      <div className="flex-1 flex flex-col mt-[10rem] justify-between items-center">
-        <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 flex flex-col my-4 justify-between items-center gap-12">
+        <div className="flex-1 w-full p-6 mx-2 my-4 overflow-y-auto">
           {/* Future: Chat bubbles + ER diagram output */}
         </div>
-        <div className="flex flex-col mx-4 items-center justify-center ">
+        <div className="flex flex-col mx-2 my-8 items-center justify-center ">
           <h1 className="text-center text-3xl mb-4 w-[60%] font-sans font-semibold text-pretty">
             Hey 
             <ColourfulText text={` ${user?.firstName}` || ' User'}/>

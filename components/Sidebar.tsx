@@ -2,23 +2,27 @@
 import { SidebarClose } from "lucide-react";
 import React, { useState } from "react";
 
-function Sidebar({ onClose }: { onClose: () => void }) {
+function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   return (
-    <div className="position-fixed top-0 left-0 w-fit flex flex-col  text-white border-0">
-      <aside className="w-64 bg-[#1a1a1a] h-screen p-4 border-r border-gray-700 overflow-y-auto">
+    <div 
+      className={`fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out z-40 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
+      <aside className="w-64 bg-[#1a1a1a] h-full p-4 border-r border-gray-700 overflow-y-auto">
         <div className="flex items-center justify-between mb-8">
-          <div className="text-lg font-semibold">Previous Chats</div>
+          <div className="text-lg font-semibold text-white">Previous Chats</div>
           <button
             onClick={onClose}
-            className="text-white hover:text-orange-500 text-xl"
+            className="text-white hover:text-orange-500 text-xl transition-colors duration-200"
           >
-            <SidebarClose/>
+            <SidebarClose />
           </button>
         </div>
         {["Chat 1", "Chat 2", "Chat 3"].map((chat, index) => (
           <div
             key={index}
-            className="p-2 mt-2 rounded-md hover:bg-orange-700 cursor-pointer transition-colors"
+            className="p-2 mt-2 rounded-md hover:bg-orange-700 cursor-pointer transition-colors duration-200 text-white"
           >
             {chat}
           </div>
@@ -27,5 +31,4 @@ function Sidebar({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
-
 export default Sidebar;

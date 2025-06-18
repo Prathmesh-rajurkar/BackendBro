@@ -12,7 +12,24 @@ export default function PromptInput() {
     if (!prompt.trim()) return;
 
     console.log('User prompt:', prompt);
-    // TODO: send to API
+    try {
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Response from server:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+      })
+    } catch (error) {
+      
+    }
     setPrompt('');
   };
 
