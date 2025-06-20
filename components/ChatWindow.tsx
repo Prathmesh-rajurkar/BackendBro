@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import PromptInput from "./PromptInput";
-import { currentUser } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { ColourfulText } from "./ui/colourful-text";
 
