@@ -1,4 +1,4 @@
-import { dbConnect } from "@/lib/db";
+import dbConnect from "@/lib/db";
 import Chat from "@/models/Chat";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";

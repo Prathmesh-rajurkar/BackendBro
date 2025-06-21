@@ -1,18 +1,31 @@
 "use client";
 import ChatWindow from "@/components/ChatWindow";
 import Sidebar from "@/components/Sidebar";
-import { dbConnect } from "@/lib/db";
-import Chat from "@/models/Chat";
 import { SidebarOpen } from "lucide-react";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
-async function ChatPage({ params }: { params: { chat_id: string }}) {
+function ChatPage({ params }: { params: any }) {
+  const { chat_id } = use(params) as { chat_id: string };
+  const [chatData, setChatData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchChat = async () => {
+      try {
+        const res = await fetch(`/api/chat/${chat_id}`);
+        const data = await res.json();
+        setChatData(data);
+      } catch (error) {
+        console.error("Error fetching chat:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChat(); // Call the inner async function
+  }, [chat_id]);
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  await dbConnect();
-  const {chat_id} = await params;
-  //   const chat = await Chat.findById(params.chat_id);
-
-
   return (
     <div className="bg-[#1a1a1a] text-white w-screen h-screen flex relative overflow-hidden">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
