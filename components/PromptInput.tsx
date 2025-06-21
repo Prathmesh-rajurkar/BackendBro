@@ -1,36 +1,37 @@
 // components/chat/PromptInput.tsx
-'use client';
+"use client";
 
-import { Send } from 'lucide-react';
-import { useState } from 'react';
+import { Send } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 export default function PromptInput() {
-  const [prompt, setPrompt] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [prompt, setPrompt] = useState("");
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!prompt.trim()) return;
+    setLoading(true);
 
-    console.log('User prompt:', prompt);
-    try {
-      fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Response from server:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-      })
-    } catch (error) {
-      
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt, userId: user?.id }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.chatId) {
+      router.push(`/c/${data.chatId}`); // ✅ navigate to /c/{chat_id}
+    } else {
+      alert("Something went wrong!");
     }
-    setPrompt('');
+
+    setLoading(false);
   };
 
   return (
@@ -48,7 +49,7 @@ export default function PromptInput() {
         type="submit"
         className="ml-2 cursor-pointer px-4 py-2  rounded-md"
       >
-        <Send/>
+        <Send />
       </button>
     </form>
   );

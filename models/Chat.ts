@@ -18,5 +18,5 @@ const chatSchema = new Schema<Chat>(
   }
 );
 
-const ChatModel = models.Chat || model<Chat>("Chat", chatSchema);
-export default ChatModel;
+const Chat = models.Chat || model<Chat>("Chat", chatSchema);
+export default Chat;

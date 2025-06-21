@@ -1,3 +1,5 @@
+import { dbConnect } from "@/lib/db";
+import Chat from "@/models/Chat";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -55,9 +57,10 @@ Enum post_status {
 
 Ref: posts.user_id > users.id // many-to-one`;
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    // const { prompt, userId } = await request.json();
+    await dbConnect();
+    const { prompt, userId } = await request.json();
 
     const res = await openai.chat.completions.create({
       model: "anthropic/claude-3-haiku",
@@ -68,14 +71,30 @@ export async function GET(request: NextRequest) {
         },
         {
           role: "user",
-          content: 'Blog Application',
+          content: prompt,
         },
       ],
     });
 
+    if (!res.choices || res.choices.length === 0) {
+      return new Response("No response from AI", { status: 500 });
+    }
+
+    // saving response in the Chat Model
+    const chatData = {
+      userId: userId,
+      prompt: prompt,
+      response: res.choices[0].message.content,
+      createdAt: new Date(),
+    };
+    const chat = await Chat.create(chatData);
+
     console.log(res.choices[0].message.content);
-    return NextResponse.json({ message: "DBML generated successfully" });
-    
+    return NextResponse.json({
+      message: "DBML generated successfully",
+      chatId: chat._id,
+    });
+
   } catch (error) {
     console.error("Error in POST request:", error);
     return new Response("Internal Server Error", { status: 500 });
