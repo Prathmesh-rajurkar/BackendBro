@@ -1,12 +1,32 @@
 "use client";
 import { SidebarClose } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+type ChatEntry = {
+  _id: string;
+  title: string;
+  prompt: string;
+  response: string;
+};
+
+type SidebarProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  chatLog: any; // or change to Chat[] if you're storing full chat objects
+};
+
+function Sidebar({ isOpen, onClose, chatLog }: SidebarProps) {
+  const router = useRouter();
+
+  const handleRedirect = (chatId: string) => {
+    router.push(`/c/${chatId}`);
+  };
+
   return (
-    <div 
+    <div
       className={`fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out z-40 ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
+        isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <aside className="w-64 bg-[#1a1a1a] h-full p-4 border-r border-gray-700 overflow-y-auto">
@@ -19,14 +39,21 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             <SidebarClose />
           </button>
         </div>
-        {["Chat 1", "Chat 2", "Chat 3"].map((chat, index) => (
-          <div
-            key={index}
-            className="p-2 mt-2 rounded-md hover:bg-orange-700 cursor-pointer transition-colors duration-200 text-white"
-          >
-            {chat}
+        {chatLog && chatLog.length > 0 ? (
+          chatLog.map((chat: ChatEntry) => (
+            <div
+              key={chat._id}
+              onClick={() => handleRedirect(chat._id)}
+              className="p-2 mt-2 rounded-md hover:bg-orange-700 cursor-pointer transition-colors duration-200 text-white"
+            >
+              {chat.title}
+            </div>
+          ))
+        ) : (
+          <div className="text-sm text-gray-400">
+            No previous chats. Keep building 🚀
           </div>
-        ))}
+        )}
       </aside>
     </div>
   );

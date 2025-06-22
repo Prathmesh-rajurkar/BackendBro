@@ -22,7 +22,7 @@ export default function PromptInput() {
       },
       body: JSON.stringify({ prompt, userId: user?.id }),
     });
-
+    setPrompt("")
     const data = await res.json();
 
     if (res.ok && data.chatId) {

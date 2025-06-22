@@ -57,11 +57,41 @@ Enum post_status {
 
 Ref: posts.user_id > users.id // many-to-one`;
 
+const summarizeSystemPrompt = `You are a summarization assistant.
+
+Your job is to generate a short, single-line title summarizing a user's database idea. Return **only one concise title**, 3–6 words, with no line breaks, no extra spaces, and no special characters. Do not list multiple items.
+
+Use PascalCase or Sentence case.
+
+Examples:
+Prompt: "An app for blogs with users, posts, and comments"
+→ Title: Blog App Schema
+
+Prompt: "User profile system with followers and bio"
+→ Title: User Profile System`
+
+
 export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const { prompt, userId } = await request.json();
-
+    const summaryRes = await openai.chat.completions.create({
+      model: "anthropic/claude-3-haiku",
+      messages: [
+        {
+          role: "system",
+          content: summarizeSystemPrompt
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+    const title =
+      summaryRes.choices?.[0]?.message?.content?.trim() || "Untitled Chat";
+      console.log(summaryRes);
+      
     const res = await openai.chat.completions.create({
       model: "anthropic/claude-3-haiku",
       messages: [
@@ -84,6 +114,7 @@ export async function POST(request: NextRequest) {
     const chatData = {
       userId: userId,
       prompt: prompt,
+      title: title,
       response: res.choices[0].message.content,
       createdAt: new Date(),
     };
@@ -94,7 +125,6 @@ export async function POST(request: NextRequest) {
       message: "DBML generated successfully",
       chatId: chat._id,
     });
-
   } catch (error) {
     console.error("Error in POST request:", error);
     return new Response("Internal Server Error", { status: 500 });
