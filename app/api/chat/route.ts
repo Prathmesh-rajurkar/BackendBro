@@ -61,14 +61,15 @@ const summarizeSystemPrompt = `You are a summarization assistant.
 
 Your job is to generate a short, single-line title summarizing a user's database idea. Return **only one concise title**, 3–6 words, with no line breaks, no extra spaces, and no special characters. Do not list multiple items.
 
-Use PascalCase or Sentence case.
 
 Examples:
 Prompt: "An app for blogs with users, posts, and comments"
 → Title: Blog App Schema
 
 Prompt: "User profile system with followers and bio"
-→ Title: User Profile System`
+→ Title: User Profile System
+
+Dont forget to keep space between two words `
 
 
 export async function POST(request: NextRequest) {

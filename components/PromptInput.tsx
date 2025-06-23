@@ -5,12 +5,23 @@ import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 
 export default function PromptInput() {
   const [prompt, setPrompt] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const placeholders = [
+    "Blog App Schema",
+    "User Profile System",
+    "E-commerce Platform",
+    "Social Media App",
+    "Task Management Tool",
+  ]
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -22,7 +33,7 @@ export default function PromptInput() {
       },
       body: JSON.stringify({ prompt, userId: user?.id }),
     });
-    setPrompt("")
+    setPrompt("");
     const data = await res.json();
 
     if (res.ok && data.chatId) {
@@ -35,22 +46,11 @@ export default function PromptInput() {
   };
 
   return (
-    <form
+
+    <PlaceholdersAndVanishInput
+      placeholders={placeholders}
+      onChange={handleChange}
       onSubmit={handleSubmit}
-      className="p-1 w-full flex bg-[#2a2a2a] text-white focus:outline-none rounded-2xl"
-    >
-      <input
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Make Your Backend Schema...."
-        className="flex-1 p-3 rounded-lg focus:outline-none"
-      />
-      <button
-        type="submit"
-        className="ml-2 cursor-pointer px-4 py-2  rounded-md"
-      >
-        <Send />
-      </button>
-    </form>
+    />
   );
 }
