@@ -12,21 +12,6 @@ function ChatPage({ params }: { params: any }) {
   const [chatLog, setChatLog] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  useEffect(() => {
-    const fetchChat = async () => {
-      try {
-        const res = await fetch(`/api/chat/${chat_id}`);
-        const data = await res.json();
-        setChatData(data);
-      } catch (error) {
-        console.error("Error fetching chat:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchChat(); // Call the inner async function
-  }, [chat_id]);
 
   useEffect(() => {
     const fetchChatLog = async () => {
