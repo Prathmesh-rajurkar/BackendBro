@@ -18,7 +18,7 @@ function ChatResponse({chat} : {chat: any}) {
         <div className="w-full h-full p-4 bg-gray-800 rounded-lg shadow-lg overflow-y-auto">
           <CodeBlock
           language="sql"
-          highlightLines={[9, 13, 14, 18]}
+          highlightLines={[]}
           filename="dbml"
           code={code}/>
         </div>

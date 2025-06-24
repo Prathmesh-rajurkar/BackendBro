@@ -4,6 +4,7 @@ import ChatWindow from "@/components/ChatWindow";
 import Sidebar from "@/components/Sidebar";
 import { SidebarOpen } from "lucide-react";
 import React, { use, useEffect, useState } from "react";
+import {Skeleton} from "@heroui/skeleton";
 
 function ChatPage({ params }: { params: any }) {
   const { chat_id } = use(params) as { chat_id: string };
@@ -46,6 +47,7 @@ function ChatPage({ params }: { params: any }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   return (
     <div className="bg-[#1a1a1a] text-white w-screen h-screen flex relative overflow-hidden">
+      
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} chatLog = {chatLog} />
 
       {/* Overlay for mobile */}
@@ -70,7 +72,13 @@ function ChatPage({ params }: { params: any }) {
             <SidebarOpen />
           </button>
         )}
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <Skeleton className="w-64 h-64" />
+          </div>
+        ) : (
         <ChatResponse chat = {chatData}/>
+        )}
       </div>
     </div>
   );

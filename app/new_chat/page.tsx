@@ -26,6 +26,7 @@ function ChatPage() {
   }, []);
   return (
     <div className="bg-[#1a1a1a] text-white w-screen h-screen flex relative overflow-hidden">
+      
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} chatLog={chatLog} />
 
       {/* Overlay for mobile */}

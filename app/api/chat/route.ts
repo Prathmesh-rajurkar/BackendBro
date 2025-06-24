@@ -76,6 +76,9 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const { prompt, userId } = await request.json();
+    if (!prompt || !userId) {
+      return new Response("Prompt and userId are required", { status: 400 });
+    }
     const summaryRes = await openai.chat.completions.create({
       model: "anthropic/claude-3-haiku",
       messages: [
