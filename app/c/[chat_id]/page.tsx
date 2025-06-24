@@ -77,7 +77,7 @@ function ChatPage({ params }: { params: any }) {
             <Skeleton className="w-64 h-64" />
           </div>
         ) : (
-        <ChatResponse chat = {chatData}/>
+        <ChatResponse/>
         )}
       </div>
     </div>

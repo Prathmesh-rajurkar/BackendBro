@@ -13,6 +13,7 @@
     "@clerk/localizations": "^3.16.5",
     "@clerk/nextjs": "^6.22.0",
     "@clerk/themes": "^2.2.50",
+    "@dbml/core": "^3.13.6",
     "@heroui/skeleton": "^2.2.14",
     "@heroui/system": "^2.4.18",
     "@heroui/theme": "^2.4.17",
@@ -30,6 +31,7 @@
     "react-dom": "^19.1.0",
     "react-flow-renderer": "^10.3.17",
     "react-syntax-highlighter": "^15.6.1",
+    "reactflow": "^11.11.4",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
