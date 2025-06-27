@@ -1,4 +1,5 @@
 "use client";
+import { UserButton } from "@clerk/nextjs";
 import { SidebarClose } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -30,6 +31,10 @@ function Sidebar({ isOpen, onClose, chatLog }: SidebarProps) {
       }`}
     >
       <aside className="w-64 bg-[#1a1a1a] h-full p-4 border-r border-gray-700 overflow-y-auto">
+        <div>
+          <UserButton/>
+          <br/>
+        </div>
         <div className="flex items-center justify-between mb-8">
           <div className="text-lg font-semibold text-white">Previous Chats</div>
           <button
